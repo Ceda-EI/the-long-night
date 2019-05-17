@@ -56,6 +56,13 @@ if tg_enable:
     config["telegram"]["bot_token"] = input("> ")
     print("\nEnter userid\n")
     config["telegram"]["user_id"] = get_number("> ")
+    print("\nAttempting to send a test message")
+    from backends import telegram
+    telegram.send(config["telegram"], "Test Message from The Long Night")
+    print("""
+Message sent, if you did not recieve a message, check the bot_token and
+user_id. Also, ensure that you have started the bot.
+""")
 
 print("\nStoring config.")
 with open('config.json', 'w') as f:

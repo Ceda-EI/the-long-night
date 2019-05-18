@@ -64,6 +64,36 @@ Message sent, if you did not recieve a message, check the bot_token and
 user_id. Also, ensure that you have started the bot.
 """)
 
+# Matrix
+print("\nDo you want to enable Matrix messages?\n")
+config["matrix"] = {}
+matrix_enable = get_boolean("y/N ", False)
+config["matrix"]["enabled"] = matrix_enable
+
+if matrix_enable:
+    print("\nEnter matrix homeserver address\n")
+    config["matrix"]["server"] = input("> ")
+    print("""
+Use token for authorization? (Reply with no if you want to use
+username/password)
+""")
+    if get_boolean("y/N ", False):
+        print("\nEnter matrix token\n")
+        config["matrix"]["token"] = input("> ")
+    else:
+        print("\nEnter matrix username\n")
+        config["matrix"]["username"] = input("> ")
+        print("\nEnter matrix password\n")
+        config["matrix"]["password"] = input("> ")
+    print("\nEnter Room ID\n")
+    config["matrix"]["room_id"] = input("> ")
+    print("\nAttempting to send a test message")
+    from backends import matrix
+    matrix.send(config["matrix"], "Test Message from The Long Night")
+    print("Message sent, if you did not recieve a message, check the " +
+          "credentials")
+
+
 print("\nStoring config.")
 with open('config.json', 'w') as f:
     json.dump(config, f)

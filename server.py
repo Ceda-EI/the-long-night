@@ -51,3 +51,24 @@ def en_login():
 
     return ("Logged In. The ssh key will be added " + str(config["days"]) +
             " day(s) later.")
+
+
+@app.route('/')
+def en_root():
+    return """
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>The Long Night</title>
+    </head>
+    <body>
+        <h1>The Long Night</h1>
+        <form action="login" method="POST" style="width: 100%;">
+            <input type="password" name="password" placeholder="Password"/>
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+        <a href="http://gitlab.com/ceda_ei/the-long-night">Source</a>
+    </body>
+</html>
+"""

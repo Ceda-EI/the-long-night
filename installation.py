@@ -54,7 +54,7 @@ config["telegram"]["enabled"] = tg_enable
 if tg_enable:
     print("\nEnter bot token\n")
     config["telegram"]["bot_token"] = input("> ")
-    print("\nEnter userid\n")
+    print("\nEnter user ID. (Send /info to @questable_bot to find out)\n")
     config["telegram"]["user_id"] = get_number("> ")
     print("\nAttempting to send a test message")
     from backends import telegram

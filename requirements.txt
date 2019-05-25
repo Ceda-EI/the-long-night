@@ -1,3 +1,4 @@
 bcrypt
 requests
 matrix_client
+flask

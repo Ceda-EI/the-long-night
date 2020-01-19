@@ -22,6 +22,17 @@ def get_boolean(prompt, default):
     return default
 
 
+def get_choice(choices, prompt, error="Invalid Choice", *,
+               lowercase_input=False):
+    while True:
+        inp = input(prompt)
+        if lowercase_input:
+            inp = inp.lower()
+        if inp in choices:
+            return inp
+        print(error)
+
+
 config = {}
 
 # Master password
@@ -92,6 +103,42 @@ username/password)
     matrix.send(config["matrix"], "Test Message from The Long Night")
     print("Message sent, if you did not recieve a message, check the " +
           "credentials")
+
+# Email
+print("\nDo you want to enable email messages?\n")
+config["email"] = {}
+email_enable = get_boolean("y/N ", False)
+config["email"]["enabled"] = email_enable
+
+if email_enable:
+    print("\nEnter SMTP root URL\n")
+    config["email"]["url"] = input("> ")
+    print("\nEnter port\n")
+    config["email"]["port"] = get_number("> ")
+    print("\nDo you want to enable SSL/TLS/None\n")
+    enc = get_choice(["ssl", "tls", "none"], "> ", lowercase_input=True)
+    if enc == "ssl":
+        config["email"]["ssl"] = True
+        config["email"]["tls"] = False
+    elif enc == "tls":
+        config["email"]["ssl"] = False
+        config["email"]["tls"] = True
+    else:
+        config["email"]["ssl"] = False
+        config["email"]["tls"] = False
+    print("\nEnter login username\n")
+    config["email"]["login"] = input("> ")
+    print("\nEnter login password\n")
+    config["email"]["password"] = input("> ")
+    print("\nEnter from email\n")
+    config["email"]["from"] = input("> ")
+    print("\nEnter comma seperated list of emails to send the email to\n")
+    config["email"]["tos"] = input("> ")
+    from backends import mail
+    print("\nAttempting to send a test message")
+    mail.send(config["email"], "Test Message from The Long Night")
+    print("Message sent, if you did not recieve a message, check the " +
+          "config")
 
 
 print("\nStoring config.")
